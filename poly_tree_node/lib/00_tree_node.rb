@@ -1,3 +1,5 @@
+require "byebug"
+
 class PolyTreeNode
 
     attr_accessor :parent, :children, :value
@@ -23,7 +25,8 @@ class PolyTreeNode
     def parent=(node) 
         if !node.nil?
             node.children << self if !node.children.include?(self)
-            # node.parent.children.delete(node) if !node.parent.nil?
+            # debugger
+            node.parent.children.delete(self) if !node.parent.nil?
         end
         @parent = node
     end
