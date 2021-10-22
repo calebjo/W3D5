@@ -1,4 +1,5 @@
 require_relative "00_tree_node.rb"
+require "byebug"
 
 class KnightPathFinder
     attr_reader :starting_pos
@@ -9,8 +10,6 @@ class KnightPathFinder
         @root_node = PolyTreeNode.new(starting_pos)
         @considered_pos = [starting_pos]
     end
-
-    
 
     def self.valid_moves(pos)
         array = []
@@ -38,5 +37,38 @@ class KnightPathFinder
         @considered_pos = new_moves   
     end
   
+    def build_move_tree
+        start_pos = PolyTreeNode.new(starting_pos)
 
+        queue = [start_pos]
+        until queue.empty?
+            debugger
+            this_pos = queue.shift
+            
+            valid_moves = KnightPathFinder.valid_moves(this_pos)
+            
+            valid_moves.each do |move|
+                debugger
+                move_tree = PolyTreeNode.new(move)
+                this_pos.add_child(move_tree)
+                move_tree.parent = this_pos
+                debugger
+
+                queue << move
+            end
+        end
+    end
 end
+
+# def bfs(target_value)
+#     queue = [self]
+#     until queue.empty?
+#         current = queue.shift
+#         return current if current.value == target_value
+
+#         current.children.each do |child|
+#             queue << child
+#         end
+#     end
+#     nil
+# end
