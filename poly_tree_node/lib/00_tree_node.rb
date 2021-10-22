@@ -44,5 +44,15 @@ class PolyTreeNode
         children.delete(node)
     end
 
+    def dfs(target_value)
+        return self if value == target_value
+        children.each do |child|
+            val = child.dfs(target_value)
+            return val if !val.nil?
+        end
+        nil
+    end
+
+
 
 end
