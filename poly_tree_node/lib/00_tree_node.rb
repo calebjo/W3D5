@@ -22,18 +22,22 @@ class PolyTreeNode
         @value
     end
 
-    def parent=(node) 
+    def parent=(node)
+        # debugger 
         if !node.nil?
             node.children << self if !node.children.include?(self)
             # debugger
             node.parent.children.delete(self) if !node.parent.nil?
         end
         @parent = node
+        # debugger
     end
 
     def add_child(node)
+        # debugger
         node.parent = self
         children << node if !children.include?(node)
+        # debugger
     end
 
     def remove_child(node)

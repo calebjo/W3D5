@@ -9,6 +9,7 @@ class KnightPathFinder
         @starting_pos = starting_pos
         @root_node = PolyTreeNode.new(starting_pos)
         @considered_pos = [starting_pos]
+        build_move_tree
     end
 
     def self.valid_moves(pos)
@@ -34,7 +35,11 @@ class KnightPathFinder
     def new_move_positions(pos)
         # @considered_pos.select {|pos| self.valid_moves(pos)}
         new_moves = KnightPathFinder.valid_moves(pos).select { |pos| !@considered_pos.include?(pos)}
-        @considered_pos = new_moves   
+        new_moves.each do |move|
+            @considered_pos << move
+        end
+        # @considered_pos << new_moves 
+        new_moves  
     end
   
     def build_move_tree
@@ -42,23 +47,28 @@ class KnightPathFinder
 
         queue = [start_pos]
         until queue.empty?
-            debugger
             this_pos = queue.shift
             
-            valid_moves = KnightPathFinder.valid_moves(this_pos)
+            # valid_moves = KnightPathFinder.valid_moves(this_pos.value)
+            valid_moves = new_move_positions(this_pos.value)
             
             valid_moves.each do |move|
-                debugger
+                # debugger
                 move_tree = PolyTreeNode.new(move)
                 this_pos.add_child(move_tree)
-                move_tree.parent = this_pos
-                debugger
-
-                queue << move
+                # move_tree.parent = this_pos
+                # puts "this node is #{move} This is the parent #{this_pos.value}"
+                queue << move_tree
+                # debugger
             end
         end
+
     end
+    
 end
+
+k = KnightPathFinder.new([4,4])
+# k.build_move_tree
 
 # def bfs(target_value)
 #     queue = [self]
